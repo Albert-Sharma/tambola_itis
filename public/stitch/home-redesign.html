@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tambola Arena | Enterprise Live Housie</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#005231",
+            "on-tertiary-fixed": "#002111",
+            "tertiary-fixed": "#52ffac",
+            "primary-container": "#a100ff",
+            "secondary": "#dfb7ff",
+            "tertiary-container": "#007b4c",
+            "surface-dim": "#170e2c",
+            "on-error-container": "#ffdad6",
+            "outline-variant": "#4e4256",
+            "primary-fixed": "#f2daff",
+            "primary-fixed-dim": "#e1b6ff",
+            "surface-container-high": "#2e2544",
+            "on-surface-variant": "#d1c1d8",
+            "primary": "#e1b6ff",
+            "secondary-fixed-dim": "#dfb7ff",
+            "inverse-primary": "#8e00e2",
+            "on-secondary": "#4b007e",
+            "background": "#170e2c",
+            "on-tertiary-container": "#abffcb",
+            "surface-container": "#231a39",
+            "on-primary-container": "#f9e8ff",
+            "inverse-on-surface": "#342b4b",
+            "on-surface": "#e9ddff",
+            "surface-variant": "#39304f",
+            "surface-container-low": "#1f1634",
+            "secondary-container": "#7500bf",
+            "tertiary-fixed-dim": "#00e290",
+            "on-secondary-container": "#daadff",
+            "inverse-surface": "#e9ddff",
+            "outline": "#9a8ca2",
+            "error": "#ffb4ab",
+            "on-background": "#e9ddff",
+            "on-secondary-fixed-variant": "#6b00b0",
+            "surface-tint": "#e1b6ff",
+            "surface-container-highest": "#39304f",
+            "surface-bright": "#3d3454",
+            "on-error": "#690005",
+            "on-secondary-fixed": "#2d004f",
+            "surface-container-lowest": "#110826",
+            "on-tertiary": "#003920",
+            "on-primary-fixed": "#2e004e",
+            "surface": "#170e2c",
+            "tertiary": "#00e290",
+            "on-primary": "#4c007c",
+            "error-container": "#93000a",
+            "on-primary-fixed-variant": "#6c00ae",
+            "secondary-fixed": "#f1daff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2.5rem",
+            "margin": "2.5rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Space Grotesk"],
+            "label-md": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "display-hero-mobile": ["Space Grotesk"],
+            "display-hero": ["Space Grotesk"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "body-sm": ["Hanken Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "label-lg": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.06em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom glow and subtle ambient effects */
+    .hero-glow {
+      background: radial-gradient(circle at 50% 0%, rgba(161, 0, 255, 0.35) 0%, rgba(23, 14, 44, 0) 70%);
+    }
+    .neon-border {
+      border: 1px solid rgba(161, 0, 255, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .neon-border-focus:focus-within {
+      border-color: #a100ff;
+      box-shadow: 0 0 0 3px rgba(161, 0, 255, 0.25);
+    }
+    .live-pulse {
+      box-shadow: 0 0 12px #00e290;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface min-h-screen antialiased flex flex-col items-center selection:bg-primary-container selection:text-on-primary-container relative">
+<!-- Ambient background glow layer -->
+<div class="fixed inset-0 pointer-events-none hero-glow z-0"></div>
+<!-- Shared Component: TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest docked full-width top-0 sticky z-50 border-b border-outline-variant/30 dark:border-outline-variant/30 shadow-sm dark:shadow-none w-full">
+<div class="flex justify-between items-center w-full px-margin-mobile py-space-sm max-w-md mx-auto">
+<div class="flex items-center gap-2">
+<button aria-label="Game Arena Hub" class="p-1.5 rounded-lg bg-surface-container-low text-primary dark:text-primary hover:text-primary dark:hover:text-primary hover:bg-surface-container-high/40 transition-colors duration-150 active:scale-95 transition-transform duration-100 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-xl">sports_esports</span>
+</button>
+<span class="text-headline-sm font-headline-sm font-bold tracking-wider text-primary dark:text-primary uppercase">Tambola Arena</span>
+</div>
+<button aria-label="Help and Guidelines" class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary dark:hover:text-primary hover:bg-surface-container-high/40 transition-colors duration-150 active:scale-95 transition-transform duration-100 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Mobile Viewport Canvas Container -->
+<main class="w-full max-w-md px-margin-mobile pt-space-md pb-28 relative z-10 flex flex-col gap-space-lg">
+<!-- Telemetry & Event Live Badge -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-outline-variant/40 rounded-full">
+<span class="w-2 h-2 rounded-full bg-tertiary live-pulse animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">LIVE EVENT TELEMETRY</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider">ALL-HANDS ARENA</span>
+</div>
+<!-- Hero Title Header -->
+<section class="text-center space-y-space-xs pt-space-xs">
+<div class="relative inline-block">
+<h1 class="font-display-hero-mobile text-display-hero-mobile font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(161,0,255,0.4)]">
+          TAMBOLA NIGHT
+        </h1>
+<div class="h-1 w-24 mx-auto mt-2 bg-gradient-to-r from-transparent via-primary-container to-transparent rounded-full"></div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant pt-space-xs max-w-xs mx-auto leading-relaxed">
+        Live housie for the whole organisation. Grab your tickets and get ready to shout!
+      </p>
+</section>
+<!-- Step Progression Rail / Bento Cards (3 Numbered Steps) -->
+<section aria-label="How to Participate Steps" class="flex flex-col gap-space-sm">
+<!-- Step 1 Card -->
+<div class="bg-surface-container-low neon-border rounded-xl p-space-md flex items-start gap- space-sm transition-all duration-200 hover:border-primary-container/60 hover:-translate-y-0.5">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container-high border border-primary-container/40 flex items-center justify-center text-primary font-headline-sm text-headline-sm font-bold shadow-[0_0_10px_rgba(161,0,255,0.25)]">
+          1
+        </div>
+<div class="flex-1 pl-2">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-white font-bold">Buy tickets</h2>
+<span class="material-symbols-outlined text-primary text-sm opacity-70">receipt_long</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            Fill the Google Form with your details and payment screenshot. Choose 1 to 3 tickets.
+          </p>
+</div>
+</div>
+<!-- Step 2 Card -->
+<div class="bg-surface-container-low neon-border rounded-xl p-space-md flex items-start gap-space-sm transition-all duration-200 hover:border-primary-container/60 hover:-translate-y-0.5">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container-high border border-primary-container/40 flex items-center justify-center text-primary font-headline-sm text-headline-sm font-bold shadow-[0_0_10px_rgba(161,0,255,0.25)]">
+          2
+        </div>
+<div class="flex-1 pl-2">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-white font-bold">Get your User ID</h2>
+<span class="material-symbols-outlined text-primary text-sm opacity-70">badge</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            After we verify your payment, your tickets and unique User ID are emailed to you.
+          </p>
+</div>
+</div>
+<!-- Step 3 Card -->
+<div class="bg-surface-container-low neon-border rounded-xl p-space-md flex items-start gap-space-sm transition-all duration-200 hover:border-primary-container/60 hover:-translate-y-0.5 border-l-2 border-l-tertiary">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container-high border border-tertiary/40 flex items-center justify-center text-tertiary font-headline-sm text-headline-sm font-bold shadow-[0_0_10px_rgba(0,226,144,0.25)]">
+          3
+        </div>
+<div class="flex-1 pl-2">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-white font-bold">Play live</h2>
+<span class="material-symbols-outlined text-tertiary text-sm">sensors</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            Log in on game day, then tap numbers on your tickets as they are called.
+          </p>
+</div>
+</div>
+</section>
+<!-- Action Section 1: Want Tickets? Registration CTA Card -->
+<section class="bg-gradient-to-b from-surface-container to-surface-container-low neon-border rounded-xl p-space-md relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-primary-container/15 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-primary text-lg">local_activity</span>
+<h2 class="font-headline-sm text-headline-sm text-white font-bold">Want tickets?</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+        Submit the registration form to get your tickets by email.
+      </p>
+<a class="w-full h-12 bg-primary-container hover:bg-[#b326ff] text-white font-label-lg text-label-lg font-bold rounded-lg flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(161,0,255,0.4)] active:scale-95 transition-all duration-150 border-t border-white/20" href="#registration">
+<span>Open registration form</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</section>
+<!-- Action Section 2: Already Have User ID? Access Card -->
+<section class="bg-surface-container-low neon-border rounded-xl p-space-md relative neon-border-focus transition-all duration-200">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-secondary text-lg">login</span>
+<h2 class="font-headline-sm text-headline-sm text-white font-bold">Already have a User ID?</h2>
+</div>
+<form class="space-y-space-md mt-space-sm" onsubmit="event.preventDefault();">
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface font-semibold" for="user-id-input">
+            Your User ID (from the email)
+          </label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">key</span>
+</div>
+<input class="w-full h-12 pl-10 pr-4 bg-surface-container-lowest border border-outline-variant/50 rounded-lg text-white font-body-md text-body-md placeholder-outline focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors" id="user-id-input" name="userId" placeholder="e.g. acc001" type="text"/>
+</div>
+</div>
+<button class="w-full h-12 bg-surface-container-high border border-primary-container/50 hover:bg-surface-container-highest text-primary font-label-lg text-label-lg font-bold rounded-lg flex items-center justify-center gap-2 hover:border-primary transition-all duration-150 active:scale-95 shadow-[0_2px_10px_rgba(161,0,255,0.2)]" type="submit">
+<span class="material-symbols-outlined text-base">sports_esports</span>
+<span>Enter the game</span>
+</button>
+</form>
+</section>
+<!-- Subtle Admin Link & Footer Note -->
+<footer class="text-center pt-space-xs pb-space-sm">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-outline-variant/50 hover:decoration-primary transition-colors inline-flex items-center gap-1 py-2 px-3 rounded" href="/admin">
+<span class="material-symbols-outlined text-xs">admin_panel_settings</span>
+<span>Admin login</span>
+</a>
+<p class="font-label-sm text-label-sm text-outline-variant mt-2 tracking-widest uppercase">
+        ENTERPRISE GAMING ENGINE • ACCENTURE SOLUTIONS
+      </p>
+</footer>
+</main>
+<!-- Shared Component: BottomNavBar -->
+<nav class="bg-surface-container-low/95 dark:bg-surface-container-low/95 backdrop-blur-md docked full-width bottom-0 fixed z-50 border-t border-outline-variant/20 dark:border-outline-variant/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] w-full">
+<div class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-space-xs max-w-md mx-auto">
+<!-- Nav Item 1: Onboarding (Active Destination for this flow) -->
+<a class="flex flex-col items-center justify-center text-primary-fixed dark:text-primary-fixed font-bold bg-primary-container/20 rounded-xl px-4 py-1.5 hover:text-primary dark:hover:text-primary transition-colors duration-150 active:scale-95 transition-transform duration-150" href="#onboarding">
+<span class="material-symbols-outlined text-xl" data-icon="how_to_reg">how_to_reg</span>
+<span class="text-label-sm font-label-sm mt-0.5">Onboarding</span>
+</a>
+<!-- Nav Item 2: Rules (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-3 py-1.5 hover:text-primary dark:hover:text-primary transition-colors duration-150 active:scale-95 transition-transform duration-150" href="#rules">
+<span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span>
+<span class="text-label-sm font-label-sm mt-0.5">Rules</span>
+</a>
+<!-- Nav Item 3: Live Arena (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-3 py-1.5 hover:text-primary dark:hover:text-primary transition-colors duration-150 active:scale-95 transition-transform duration-150" href="#live-arena">
+<span class="material-symbols-outlined text-xl" data-icon="play_circle">play_circle</span>
+<span class="text-label-sm font-label-sm mt-0.5">Live Arena</span>
+</a>
+</div>
+</nav>
+<script>
+    // Lightweight Micro-Interaction for input field feedback
+    const idInput = document.getElementById('user-id-input');
+    if (idInput) {
+      idInput.addEventListener('input', (e) => {
+        if (e.target.value.length > 2) {
+          e.target.classList.add('border-primary');
+        } else {
+          e.target.classList.remove('border-primary');
+        }
+      });
+    }
+  </script>
+</body></html>

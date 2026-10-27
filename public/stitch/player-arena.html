@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tambola Arena - Player Live Game</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#170e2c",
+            "on-surface-variant": "#d1c1d8",
+            "on-secondary-fixed": "#2d004f",
+            "error-container": "#93000a",
+            "tertiary-fixed": "#52ffac",
+            "primary": "#e1b6ff",
+            "inverse-primary": "#8e00e2",
+            "secondary-fixed": "#f1daff",
+            "surface-container-lowest": "#110826",
+            "inverse-surface": "#e9ddff",
+            "outline-variant": "#4e4256",
+            "surface-tint": "#e1b6ff",
+            "outline": "#9a8ca2",
+            "inverse-on-surface": "#342b4b",
+            "surface-variant": "#39304f",
+            "primary-fixed": "#f2daff",
+            "on-primary-container": "#f9e8ff",
+            "on-tertiary-fixed": "#002111",
+            "on-tertiary-fixed-variant": "#005231",
+            "tertiary-fixed-dim": "#00e290",
+            "on-secondary": "#4b007e",
+            "on-tertiary-container": "#abffcb",
+            "tertiary-container": "#007b4c",
+            "background": "#170e2c",
+            "primary-container": "#a100ff",
+            "error": "#ffb4ab",
+            "on-tertiary": "#003920",
+            "on-background": "#e9ddff",
+            "on-error-container": "#ffdad6",
+            "on-primary": "#4c007c",
+            "surface-container": "#231a39",
+            "surface-bright": "#3d3454",
+            "on-error": "#690005",
+            "on-secondary-container": "#daadff",
+            "surface-container-highest": "#39304f",
+            "primary-fixed-dim": "#e1b6ff",
+            "on-primary-fixed-variant": "#6c00ae",
+            "on-primary-fixed": "#2e004e",
+            "surface-container-high": "#2e2544",
+            "secondary": "#dfb7ff",
+            "tertiary": "#00e290",
+            "on-surface": "#e9ddff",
+            "secondary-fixed-dim": "#dfb7ff",
+            "surface-dim": "#170e2c",
+            "secondary-container": "#7500bf",
+            "on-secondary-fixed-variant": "#6b00b0",
+            "surface-container-low": "#1f1634"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "margin": "2.5rem",
+            "space-lg": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["Space Grotesk"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-md": ["Space Grotesk"],
+            "label-sm": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "display-hero-mobile": ["Space Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+            "display-hero": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "body-sm": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .ticket-stripe {
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 193, 7, 0.18),
+        rgba(255, 193, 7, 0.18) 6px,
+        rgba(255, 193, 7, 0.05) 6px,
+        rgba(255, 193, 7, 0.05) 12px
+      );
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+    .calling-pulse {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #4e4256;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen selection:bg-primary-container selection:text-white pb-24 md:pb-12">
+<!-- TOP APP BAR (Shared Component) -->
+<header class="bg-surface-container-lowest sticky top-0 z-50 shadow-sm border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-sm flex justify-between items-center">
+<!-- Leading & Brand -->
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="sports_esports">sports_esports</span>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold tracking-wider text-primary uppercase block leading-none">Tambola Arena</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium tracking-normal">Hi Rohan Iyer • ID: acc008</span>
+</div>
+</div>
+</div>
+<!-- Controls & Trailing Actions -->
+<div class="flex items-center gap-space-sm md:gap-space-md">
+<!-- Live Voice Caller Indicator / Toggle -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg border border-outline-variant/40 hover:border-primary transition-all duration-150" id="voiceToggle" onclick="toggleVoice()">
+<span class="material-symbols-outlined text-tertiary text-lg" data-icon="volume_up" id="voiceIcon">volume_up</span>
+<span class="font-label-md text-label-md text-primary font-bold hidden sm:inline" id="voiceStatusText">Voice Audio</span>
+<div class="flex items-end gap-0.5 h-3">
+<span class="w-1 bg-tertiary rounded-full h-1.5 animate-pulse"></span>
+<span class="w-1 bg-tertiary rounded-full h-3 animate-pulse delay-75"></span>
+<span class="w-1 bg-tertiary rounded-full h-2 animate-pulse delay-150"></span>
+</div>
+</button>
+<!-- Live Status Pill -->
+<div class="hidden lg:flex items-center gap-1.5 bg-surface-container-high px-2.5 py-1 rounded-full border border-outline-variant/20">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm font-bold text-tertiary uppercase tracking-widest">LIVE EVENT</span>
+</div>
+<!-- Trailing Logout Action -->
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high hover:text-primary text-on-surface-variant active:scale-95 transition-all duration-150 border border-outline-variant/30 font-label-md text-label-md">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span class="hidden md:inline font-label-md text-label-md">Log out</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin pt-space-md pb-space-lg space-y-space-md">
+<!-- HERO GAME TELEMETRY BANNER -->
+<section class="relative overflow-hidden rounded-xl bg-gradient-to-r from-surface-container-low via-surface-container to-surface-container-low border border-primary-container/30 p-space-md md:p-space-lg shadow-xl">
+<!-- Ambient chromatic glow background -->
+<div class="absolute -right-20 -top-20 w-72 h-72 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- Current & Previous Ball Announcement -->
+<div class="flex items-center gap-space-md md:gap-space-lg w-full md:w-auto">
+<!-- Ball 66 Luminous Glow Sphere -->
+<div class="relative flex items-center justify-center shrink-0">
+<div class="calling-pulse absolute inset-0 rounded-full bg-primary-container/50 blur-md"></div>
+<div class="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-b from-[#ffd276] via-[#f59e0b] to-[#b45309] shadow-[0_0_35px_rgba(245,158,11,0.55)] border-4 border-[#fff1ba] flex flex-col items-center justify-center text-slate-950">
+<span class="font-label-sm text-label-sm uppercase tracking-widest font-extrabold opacity-80 -mb-1">Active</span>
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero leading-none font-bold tracking-tight text-slate-950" id="currentBallNum">66</span>
+</div>
+</div>
+<!-- Announcement Telemetry Details -->
+<div class="space-y-1">
+<div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary-container/30 border border-primary-container/50">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="campaign">campaign</span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider font-bold">Number Called!</span>
+</div>
+<h1 class="font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md text-on-surface font-bold tracking-tight">
+              Number 66 Announced
+            </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-3">
+<span><strong class="text-tertiary font-bold" id="calledCountDisplay">2</strong> of 90 numbers called</span>
+<span class="text-outline-variant">•</span>
+<span class="text-primary-fixed">88 balls remaining</span>
+</p>
+</div>
+</div>
+<!-- Previous Balls & Fast HUD Info -->
+<div class="flex items-center justify-between md:justify-end gap-space-md w-full md:w-auto pt-space-xs md:pt-0 border-t md:border-t-0 border-outline-variant/30">
+<div class="flex items-center gap-2 bg-surface-container-lowest/80 px-3 py-2 rounded-lg border border-outline-variant/30">
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase font-medium">Previous</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Ball Called</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#e5a823] to-[#ffd777] text-slate-950 font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-inner">
+              9
+            </div>
+</div>
+<!-- Auto-Dab & Next Draw Meter -->
+<div class="bg-surface-container-lowest/80 px-3.5 py-2 rounded-lg border border-outline-variant/30 flex items-center gap-3">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase font-medium">Next Ball In</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold tabular-nums" id="timerSeconds">07s</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">auto-draw</span>
+</div>
+</div>
+<button class="px-2.5 py-1.5 rounded bg-primary-container hover:bg-secondary-container text-white font-label-sm text-label-sm font-bold transition-all duration-150 active:scale-95 flex items-center gap-1 shadow-sm" onclick="claimAutoDab()">
+<span class="material-symbols-outlined text-base" data-icon="auto_awesome">auto_awesome</span>
+<span>Dab All</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: TICKET SELECTOR, VIEW MODES & PRIZE METRICS -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Your Tickets (3)</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary-fixed border border-outline-variant/30 font-label-sm text-label-sm">
+          Active Game ID: #TMB-904
+        </span>
+</div>
+<!-- Ticket View Layout Tabs -->
+<div class="inline-flex p-1 bg-surface-container-lowest rounded-lg border border-outline-variant/30">
+<button class="px-3 py-1 rounded font-label-md text-label-md font-bold transition-all bg-primary-container text-white shadow" id="tabBtn-all" onclick="switchTicketView('all')">
+          Viewing 3 Tickets
+        </button>
+<button class="px-3 py-1 rounded font-label-md text-label-md font-medium text-on-surface-variant hover:text-primary transition-all" id="tabBtn-single" onclick="switchTicketView('single')">
+          1 Ticket Focused
+        </button>
+<button class="px-3 py-1 rounded font-label-md text-label-md font-medium text-on-surface-variant hover:text-primary transition-all" id="tabBtn-compact" onclick="switchTicketView('compact')">
+          Compact Grid
+        </button>
+</div>
+</div>
+<!-- QUICK PRIZE CLAIM TRACKER STRIP -->
+<div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+<div class="bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/20 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Early Five</span>
+<span class="text-tertiary font-label-sm text-label-sm font-bold">₹1,500</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary font-bold">2 Needed</span>
+<button class="px-2 py-0.5 rounded bg-surface-container hover:bg-primary-container text-primary hover:text-white font-label-sm text-label-sm transition-colors border border-outline-variant/30" onclick="claimPrizeAlert('Early Five')">Claim</button>
+</div>
+</div>
+<div class="bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/20 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Top Line</span>
+<span class="text-tertiary font-label-sm text-label-sm font-bold">₹2,000</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-medium">3 Needed</span>
+<button class="px-2 py-0.5 rounded bg-surface-container hover:bg-primary-container text-on-surface-variant hover:text-white font-label-sm text-label-sm transition-colors border border-outline-variant/30" onclick="claimPrizeAlert('Top Line')">Claim</button>
+</div>
+</div>
+<div class="bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/20 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Middle Line</span>
+<span class="text-tertiary font-label-sm text-label-sm font-bold">₹2,000</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-medium">4 Needed</span>
+<button class="px-2 py-0.5 rounded bg-surface-container hover:bg-primary-container text-on-surface-variant hover:text-white font-label-sm text-label-sm transition-colors border border-outline-variant/30" onclick="claimPrizeAlert('Middle Line')">Claim</button>
+</div>
+</div>
+<div class="bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/20 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Bottom Line</span>
+<span class="text-tertiary font-label-sm text-label-sm font-bold">₹2,000</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-medium">4 Needed</span>
+<button class="px-2 py-0.5 rounded bg-surface-container hover:bg-primary-container text-on-surface-variant hover:text-white font-label-sm text-label-sm transition-colors border border-outline-variant/30" onclick="claimPrizeAlert('Bottom Line')">Claim</button>
+</div>
+</div>
+<div class="col-span-2 sm:col-span-1 bg-gradient-to-br from-primary-container/20 to-surface-container-high p-2.5 rounded-lg border border-primary/40 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-bold">Full House</span>
+<span class="text-tertiary-fixed font-label-sm text-label-sm font-bold">₹10,000</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-tertiary font-bold">In Play</span>
+<button class="px-2.5 py-0.5 rounded bg-primary-container hover:bg-secondary-container text-white font-label-sm text-label-sm font-bold transition-all shadow-sm" onclick="claimPrizeAlert('Full House')">Claim</button>
+</div>
+</div>
+</div>
+<!-- YOUR TICKETS CARDS GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md" id="ticketsContainer">
+<!-- TICKET 1 -->
+<div class="ticket-card bg-surface-container-lowest rounded-xl p-3.5 border-2 border-[#d97706]/40 hover:border-[#f59e0b] transition-all shadow-lg flex flex-col justify-between" id="ticketCard-1">
+<!-- Ticket Header -->
+<div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold text-base md:text-lg">Ticket 1</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md font-bold text-tertiary px-2 py-0.5 rounded bg-tertiary/10 border border-tertiary/20" id="ticket1Status">
+              1/15 Crossed
+            </span>
+</div>
+</div>
+<!-- 3x9 Grid for Ticket 1 -->
+<div class="grid grid-rows-3 gap-1.5 p-1.5 bg-[#fffbeb] dark:bg-[#120822] rounded-lg border border-[#f59e0b]/40 select-none">
+<!-- Row 1 -->
+<div class="grid grid-cols-9 gap-1">
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">2</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">20</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">62</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">70</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">86</button>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-9 gap-1">
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">3</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">17</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">24</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">44</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">74</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-9 gap-1">
+<!-- 9 is previous called ball -> Mark dabbed by default -->
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm font-bold rounded border transition-colors bg-amber-500 text-slate-950 border-amber-300 shadow-inner" onclick="toggleDab(this)">
+              9
+            </button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">25</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">35</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">52</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">76</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+</div>
+</div>
+<!-- Ticket Quick Footer Actions -->
+<div class="mt-3 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-2 border-t border-outline-variant/20">
+<span>Serial: #ACC-TK-081</span>
+<span class="text-tertiary">Early 5: 4 left</span>
+</div>
+</div>
+<!-- TICKET 2 -->
+<div class="ticket-card bg-surface-container-lowest rounded-xl p-3.5 border border-outline-variant/30 hover:border-[#f59e0b] transition-all shadow-lg flex flex-col justify-between" id="ticketCard-2">
+<!-- Ticket Header -->
+<div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold text-base md:text-lg">Ticket 2</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md font-bold text-on-surface-variant px-2 py-0.5 rounded bg-surface-container border border-outline-variant/30">
+              0/15 Crossed
+            </span>
+</div>
+</div>
+<!-- 3x9 Grid for Ticket 2 -->
+<div class="grid grid-rows-3 gap-1.5 p-1.5 bg-[#fffbeb] dark:bg-[#120822] rounded-lg border border-[#f59e0b]/40 select-none">
+<!-- Row 1 -->
+<div class="grid grid-cols-9 gap-1">
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">21</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">40</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">51</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">73</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">81</button>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-9 gap-1">
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">25</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">41</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">52</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">64</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">74</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-9 gap-1">
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">7</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">15</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">33</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">49</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">69</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+</div>
+</div>
+<!-- Ticket Quick Footer Actions -->
+<div class="mt-3 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-2 border-t border-outline-variant/20">
+<span>Serial: #ACC-TK-082</span>
+<span class="text-on-surface-variant">Early 5: 5 left</span>
+</div>
+</div>
+<!-- TICKET 3 (Has 66 -> Highlight with Luminous Pulse) -->
+<div class="ticket-card bg-surface-container-lowest rounded-xl p-3.5 border-2 border-primary-container/80 shadow-[0_0_20px_rgba(161,0,255,0.25)] flex flex-col justify-between" id="ticketCard-3">
+<!-- Ticket Header -->
+<div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold text-base md:text-lg">Ticket 3</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-container text-white uppercase tracking-wider animate-bounce">Match!</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md font-bold text-primary px-2 py-0.5 rounded bg-primary-container/20 border border-primary-container/40" id="ticket3Status">
+              Dab Needed!
+            </span>
+</div>
+</div>
+<!-- 3x9 Grid for Ticket 3 -->
+<div class="grid grid-rows-3 gap-1.5 p-1.5 bg-[#fffbeb] dark:bg-[#120822] rounded-lg border border-[#f59e0b]/40 select-none">
+<!-- Row 1 -->
+<div class="grid grid-cols-9 gap-1">
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">49</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">51</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">68</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">70</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">86</button>
+</div>
+<!-- Row 2 (Contains 66) -->
+<div class="grid grid-cols-9 gap-1">
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">13</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">21</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">55</button>
+<!-- TARGET NUMBER 66 FLASHING -->
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm font-bold rounded border-2 border-red-500 bg-red-600 text-white animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.7)] cursor-pointer" onclick="toggleDab(this)">
+              66
+            </button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">71</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">90</button>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-9 gap-1">
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">4</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">14</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">29</button>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">32</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<button class="h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors" onclick="toggleDab(this)">57</button>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+<div class="h-9 rounded ticket-stripe border border-amber-300/20"></div>
+</div>
+</div>
+<!-- Ticket Quick Footer Actions -->
+<div class="mt-3 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-2 border-t border-outline-variant/20">
+<span>Serial: #ACC-TK-083</span>
+<span class="text-tertiary font-bold">Middle Line: 1 away!</span>
+</div>
+</div>
+</div>
+<!-- CALLED NUMBERS BOARD (1 - 90) -->
+<section class="bg-surface-container-low rounded-xl p-space-md border border-outline-variant/30 shadow-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/20 gap-2">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Called numbers</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live telemetry tracker of all 90 Tambola numbers in the game</p>
+</div>
+<div class="flex items-center gap-4 text-xs font-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+<span class="text-on-surface">Current (#66)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-[#f59e0b] text-slate-950 font-bold flex items-center justify-center text-[9px]">9</span>
+<span class="text-on-surface">Called (#9)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-surface-container border border-outline-variant/40"></span>
+<span class="text-on-surface-variant">Uncalled</span>
+</div>
+</div>
+</div>
+<!-- Complete 10x9 Full Board Grid -->
+<div class="overflow-x-auto custom-scroll pb-2">
+<div class="min-w-[700px] grid grid-cols-10 gap-1.5 sm:gap-2 select-none" id="boardGrid">
+<!-- Populated dynamically via JS for 1 to 90 to ensure accuracy -->
+</div>
+</div>
+</section>
+</main>
+<!-- CLAIM MODAL / TOAST NOTIFICATION -->
+<div class="fixed top-20 right-6 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 max-w-sm w-full bg-surface-container-high border-2 border-primary-container p-4 rounded-xl shadow-[0_16px_48px_-8px_rgba(161,0,255,0.45)]" id="toastNotification">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary text-2xl" data-icon="verified">verified</span>
+<div class="flex-1">
+<h4 class="font-headline-sm text-base text-on-surface font-bold" id="toastTitle">Prize Claim Lodged</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="toastMsg">Your claim for Early Five is being audited by the host console.</p>
+</div>
+<button class="text-on-surface-variant hover:text-white" onclick="hideToast()">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- BOTTOM NAV BAR (Shared Component) - Rendered on Mobile & Top-Level Live Arena View -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-space-xs max-w-md mx-auto bg-surface-container-low/95 backdrop-blur-md border-t border-outline-variant/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<!-- Item 1: Host Console -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-primary transition-colors duration-150 active:scale-95" href="#console">
+<span class="material-symbols-outlined text-xl" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm mt-0.5">Host Console</span>
+</a>
+<!-- Item 2: Live Arena (ACTIVE TAB: Since this is the Player Live Game Arena) -->
+<a class="flex flex-col items-center justify-center text-primary-fixed font-bold bg-primary-container/20 rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-150" href="#live-arena">
+<span class="material-symbols-outlined text-xl" data-icon="confirmation_number">confirmation_number</span>
+<span class="font-label-sm text-label-sm mt-0.5">Live Arena</span>
+</a>
+<!-- Item 3: Players -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-primary transition-colors duration-150 active:scale-95" href="#players">
+<span class="material-symbols-outlined text-xl" data-icon="group">group</span>
+<span class="font-label-sm text-label-sm mt-0.5">Players</span>
+</a>
+</nav>
+<!-- JAVASCRIPT: Game Logic, Board Rendering, Audio & Dab Management -->
+<script>
+    // State
+    let voiceActive = true;
+    let timerValue = 7;
+    let crossedCount = 1;
+
+    // Render Full 10x9 Tambola Board (Numbers 1 through 90)
+    function renderCalledBoard() {
+      const container = document.getElementById('boardGrid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let i = 1; i <= 90; i++) {
+        const cell = document.createElement('div');
+        
+        // Exact styling as shown in reference:
+        // Current ball: 66 (vibrant red tile)
+        // Previous called: 9 (warm amber tile)
+        // Uncalled: dark purple tile with soft typography
+        if (i === 66) {
+          cell.className = "h-10 sm:h-11 rounded bg-red-600 text-white font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-[0_0_14px_rgba(239,68,68,0.8)] border border-red-400 animate-pulse text-sm sm:text-base";
+          cell.innerText = i;
+        } else if (i === 9) {
+          cell.className = "h-10 sm:h-11 rounded bg-[#f59e0b] text-slate-950 font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-md border border-[#fbbf24] text-sm sm:text-base";
+          cell.innerText = i;
+        } else {
+          cell.className = "h-10 sm:h-11 rounded bg-surface-container/60 hover:bg-surface-container text-on-surface/50 hover:text-on-surface font-body-md text-xs sm:text-sm font-medium flex items-center justify-center border border-outline-variant/15 transition-colors";
+          cell.innerText = i;
+        }
+        
+        container.appendChild(cell);
+      }
+    }
+
+    // Toggle Cell Dab Interaction
+    function toggleDab(element) {
+      if (element.classList.contains('bg-amber-500') || element.classList.contains('bg-tertiary')) {
+        // Un-dab
+        element.className = "h-9 flex items-center justify-center font-headline-sm text-headline-sm text-slate-900 dark:text-white font-bold bg-white dark:bg-surface-container rounded border border-outline-variant/40 hover:bg-primary-container/20 transition-colors";
+        crossedCount = Math.max(0, crossedCount - 1);
+      } else {
+        // Dab with electric emerald celebration
+        element.className = "h-9 flex items-center justify-center font-headline-sm text-headline-sm font-bold rounded bg-tertiary text-slate-950 border border-tertiary-fixed shadow-[0_0_12px_rgba(0,226,144,0.6)] transform scale-105 transition-all";
+        crossedCount++;
+        triggerMicroSound();
+      }
+      document.getElementById('ticket1Status').innerText = `${crossedCount}/15 Crossed`;
+    }
+
+    // Auto Dab Called Numbers Action
+    function claimAutoDab() {
+      // Find all buttons containing 66 or 9 and auto-dab
+      const allButtons = document.querySelectorAll('.ticket-card button');
+      allButtons.forEach(btn => {
+        const txt = btn.innerText.trim();
+        if (txt === '66') {
+          btn.className = "h-9 flex items-center justify-center font-headline-sm text-headline-sm font-bold rounded bg-tertiary text-slate-950 border border-tertiary-fixed shadow-[0_0_12px_rgba(0,226,144,0.6)]";
+        }
+      });
+      document.getElementById('ticket3Status').innerText = "1/15 Crossed";
+      showToast("Auto-Dab Complete", "All matching balls (66, 9) have been dabbed on all tickets!");
+    }
+
+    // Switch ticket views
+    function switchTicketView(mode) {
+      const ticketsContainer = document.getElementById('ticketsContainer');
+      const t1 = document.getElementById('ticketCard-1');
+      const t2 = document.getElementById('ticketCard-2');
+      const t3 = document.getElementById('ticketCard-3');
+
+      // Update buttons
+      document.querySelectorAll('#tabBtn-all, #tabBtn-single, #tabBtn-compact').forEach(btn => {
+        btn.className = "px-3 py-1 rounded font-label-md text-label-md font-medium text-on-surface-variant hover:text-primary transition-all";
+      });
+
+      if (mode === 'single') {
+        document.getElementById('tabBtn-single').className = "px-3 py-1 rounded font-label-md text-label-md font-bold bg-primary-container text-white shadow";
+        ticketsContainer.className = "grid grid-cols-1 max-w-2xl mx-auto gap-space-md";
+        t1.classList.remove('hidden');
+        t2.classList.add('hidden');
+        t3.classList.add('hidden');
+      } else if (mode === 'compact') {
+        document.getElementById('tabBtn-compact').className = "px-3 py-1 rounded font-label-md text-label-md font-bold bg-primary-container text-white shadow";
+        ticketsContainer.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2";
+        t1.classList.remove('hidden');
+        t2.classList.remove('hidden');
+        t3.classList.remove('hidden');
+      } else {
+        document.getElementById('tabBtn-all').className = "px-3 py-1 rounded font-label-md text-label-md font-bold bg-primary-container text-white shadow";
+        ticketsContainer.className = "grid grid-cols-1 lg:grid-cols-3 gap-space-md";
+        t1.classList.remove('hidden');
+        t2.classList.remove('hidden');
+        t3.classList.remove('hidden');
+      }
+    }
+
+    // Toast Manager
+    let toastTimeout;
+    function showToast(title, msg) {
+      clearTimeout(toastTimeout);
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      toastTimeout = setTimeout(hideToast, 4000);
+    }
+
+    function hideToast() {
+      const toast = document.getElementById('toastNotification');
+      toast.classList.add('translate-y-[-150%]', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }
+
+    function claimPrizeAlert(prizeName) {
+      showToast(`${prizeName} Claim Submitted!`, `Checking server ticket sync for acc008. Your claim will be ratified in real-time.`);
+    }
+
+    // Toggle Voice Audio Caller
+    function toggleVoice() {
+      voiceActive = !voiceActive;
+      const statusText = document.getElementById('voiceStatusText');
+      const icon = document.getElementById('voiceIcon');
+      if (voiceActive) {
+        statusText.innerText = "Voice Audio";
+        statusText.className = "font-label-md text-label-md text-primary font-bold hidden sm:inline";
+        icon.innerText = "volume_up";
+        icon.className = "material-symbols-outlined text-tertiary text-lg";
+        showToast("Audio On", "Synthesized AI voice caller enabled for Accenture Arena.");
+      } else {
+        statusText.innerText = "Muted";
+        statusText.className = "font-label-md text-label-md text-on-surface-variant font-medium hidden sm:inline";
+        icon.innerText = "volume_off";
+        icon.className = "material-symbols-outlined text-on-surface-variant text-lg";
+      }
+    }
+
+    // Lightweight Audio Synthesis Micro-Interaction
+    function triggerMicroSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5 note
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.15);
+      } catch (e) {
+        // Browser policy fallback
+      }
+    }
+
+    // Timer countdown loop
+    setInterval(() => {
+      timerValue--;
+      if (timerValue < 0) {
+        timerValue = 10;
+      }
+      const el = document.getElementById('timerSeconds');
+      if (el) {
+        el.innerText = `0${timerValue}s`.slice(-3);
+      }
+    }, 1000);
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCalledBoard();
+    });
+  </script>
+</body></html>

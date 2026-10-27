@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accenture-Themed Tambola Redesign - Design & Prototype Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: "#a100ff",
+            dark: "#170e2c",
+            card: "#231a39",
+            accent: "#00e290"
+          },
+          fontFamily: {
+            title: ["Space Grotesk", "sans-serif"],
+            body: ["Hanken Grotesk", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#110826] text-[#e9ddff] font-body min-h-screen p-6 md:p-12">
+  <div class="max-w-5xl mx-auto space-y-8">
+    <header class="border-b border-[#39304f] pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#a100ff]/20 text-[#e1b6ff] text-xs font-semibold uppercase tracking-wider mb-2">
+          Stitch Design Project #15671714695302531550
+        </div>
+        <h1 class="font-title text-3xl md:text-4xl font-bold text-white tracking-tight">Accenture-Themed Tambola Redesign</h1>
+        <p class="text-[#d1c1d8] text-sm md:text-base mt-1">Interactive Stitch HTML Prototypes & Local App Integration Preview</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/" class="px-4 py-2 rounded-lg bg-[#a100ff] hover:bg-[#8e00e2] text-white font-medium text-sm transition-all shadow-md">
+          Go to Running App &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- Dummy Credentials Callout -->
+    <section class="bg-[#1f1634] border border-[#a100ff]/40 rounded-xl p-5 shadow-lg">
+      <h2 class="font-title text-lg font-bold text-white flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#00e290]"></span>
+        Local App Dummy Test Credentials
+      </h2>
+      <p class="text-sm text-[#d1c1d8] mt-1 mb-4">The local dev server runs with <code class="bg-[#110826] px-1.5 py-0.5 rounded text-[#e1b6ff]">LOCAL_DB=1</code> so all dummy accounts work immediately offline without Supabase:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+        <div class="bg-[#170e2c] p-3 rounded-lg border border-[#39304f]">
+          <div class="text-[#00e290] font-bold">Player 1 (1 Ticket)</div>
+          <div class="mt-1 font-mono text-white text-sm">acc001</div>
+          <div class="text-[#9a8ca2]">Name: Demo Player 1</div>
+        </div>
+        <div class="bg-[#170e2c] p-3 rounded-lg border border-[#39304f]">
+          <div class="text-[#00e290] font-bold">Player 2 (2 Tickets)</div>
+          <div class="mt-1 font-mono text-white text-sm">acc002</div>
+          <div class="text-[#9a8ca2]">Name: Demo Player 2</div>
+        </div>
+        <div class="bg-[#170e2c] p-3 rounded-lg border border-[#39304f]">
+          <div class="text-[#00e290] font-bold">Player 3 (3 Tickets)</div>
+          <div class="mt-1 font-mono text-white text-sm">acc003</div>
+          <div class="text-[#9a8ca2]">Name: Demo Player 3</div>
+        </div>
+        <div class="bg-[#170e2c] p-3 rounded-lg border border-[#a100ff]/50">
+          <div class="text-[#e1b6ff] font-bold">Host / Admin</div>
+          <div class="mt-1 font-mono text-white">admin</div>
+          <div class="text-[#9a8ca2] font-mono">change-me-please</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stitch Redesign Screens Showcase -->
+    <section class="space-y-4">
+      <h2 class="font-title text-2xl font-bold text-white">Stitch Redesign Screens</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Screen 1: Primary Requested Screen -->
+        <div class="bg-[#1f1634] rounded-xl border-2 border-[#a100ff] overflow-hidden flex flex-col justify-between shadow-xl">
+          <div class="relative group aspect-video overflow-hidden bg-black/40">
+            <img src="/stitch/player-arena.png" alt="Tambola Player Arena" class="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105" />
+            <span class="absolute top-2 left-2 bg-[#a100ff] text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wider">Requested Screen</span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-mono text-[#00e290]">ID: 80c47a30052945c1b74519aeedd72316</div>
+              <h3 class="font-title text-lg font-bold text-white mt-1">Player Arena (Multi-Ticket)</h3>
+              <p class="text-xs text-[#d1c1d8] mt-2">Accenture neon purple & gold theme with 3 interactive live tickets, glowing active number indicator, dab controls, and prize trackers.</p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-[#39304f] flex items-center justify-between">
+              <a href="/stitch/player-arena.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-[#a100ff] hover:bg-[#8e00e2] text-white text-xs font-bold transition">
+                Open Prototype &rarr;
+              </a>
+              <a href="/stitch/player-arena.png" target="_blank" class="text-xs text-[#e1b6ff] hover:underline">
+                View Full PNG
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Mobile Redesign -->
+        <div class="bg-[#1f1634] rounded-xl border border-[#39304f] overflow-hidden flex flex-col justify-between shadow-lg">
+          <div class="relative group aspect-video overflow-hidden bg-black/40">
+            <img src="/stitch/home-redesign.png" alt="Tambola Night Mobile" class="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105" />
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-mono text-[#9a8ca2]">ID: b3672325ae924c6b8955eae19560846a</div>
+              <h3 class="font-title text-lg font-bold text-white mt-1">Tambola Night - Mobile Redesign</h3>
+              <p class="text-xs text-[#d1c1d8] mt-2">Mobile-first player view with dark neon aesthetic, step cards, user login, and event details.</p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-[#39304f] flex items-center justify-between">
+              <a href="/stitch/home-redesign.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-[#2e2544] hover:bg-[#39304f] text-[#e9ddff] text-xs font-bold transition border border-[#4e4256]">
+                Open Prototype &rarr;
+              </a>
+              <a href="/stitch/home-redesign.png" target="_blank" class="text-xs text-[#e1b6ff] hover:underline">
+                View Full PNG
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Host & Admin Console -->
+        <div class="bg-[#1f1634] rounded-xl border border-[#39304f] overflow-hidden flex flex-col justify-between shadow-lg">
+          <div class="relative group aspect-video overflow-hidden bg-black/40">
+            <img src="/stitch/admin-console.png" alt="Host & Admin Console" class="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105" />
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-mono text-[#9a8ca2]">ID: 2d4b218a70294feaa1dc4a2587052d01</div>
+              <h3 class="font-title text-lg font-bold text-white mt-1">Host & Admin Console</h3>
+              <p class="text-xs text-[#d1c1d8] mt-2">Full admin management dashboard for calling balls, player list, ticket generation, and winner claim verification.</p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-[#39304f] flex items-center justify-between">
+              <a href="/stitch/admin-console.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-[#2e2544] hover:bg-[#39304f] text-[#e9ddff] text-xs font-bold transition border border-[#4e4256]">
+                Open Prototype &rarr;
+              </a>
+              <a href="/stitch/admin-console.png" target="_blank" class="text-xs text-[#e1b6ff] hover:underline">
+                View Full PNG
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quick Navigation Links -->
+    <footer class="border-t border-[#39304f] pt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-[#9a8ca2]">
+      <div>Tambola Night &bull; Local Development Environment</div>
+      <div class="flex items-center gap-4">
+        <a href="/" class="hover:text-white transition">Player Login (Home)</a>
+        <a href="/admin" class="hover:text-white transition">Host / Admin (/admin)</a>
+        <a href="/api/health" class="hover:text-white transition">API Health (/api/health)</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
