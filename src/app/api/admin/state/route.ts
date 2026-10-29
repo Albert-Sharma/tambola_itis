@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { requireAdmin } from "@/lib/auth";
-import { getGameState } from "@/lib/game";
+import { getGameState, adminTitleStatus } from "@/lib/game";
 import { mailConfigured } from "@/lib/mailer";
 
 export const dynamic = "force-dynamic";
@@ -40,10 +40,12 @@ export async function GET() {
   });
 
   rows.sort((a, b) => b.hits - a.hits || b.marked - a.marked);
+  const titles = await adminTitleStatus();
   return NextResponse.json({
     game,
     players,
     leaderboard: rows.slice(0, 5),
+    titles,
     totalTickets: rows.length,
     mailConfigured: mailConfigured(),
     storageMode: store().mode,

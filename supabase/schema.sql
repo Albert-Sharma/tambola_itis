@@ -38,6 +38,21 @@ create table if not exists tickets (
 );
 create index if not exists tickets_player_idx on tickets(player_id);
 
+-- Prize titles won in a round. First to cross wins; once taken a title is closed for everyone else.
+-- Only full_house has up to 3 winning tickets (positions 1..3); every other title has a single winner.
+create table if not exists claims (
+  id         uuid primary key default gen_random_uuid(),
+  title      text not null check (title in ('early_five','top_line','middle_line','bottom_line','full_house')),
+  position   int  not null check (position between 1 and 3),
+  player_id  uuid not null references players(id) on delete cascade,
+  ticket_id  uuid not null references tickets(id) on delete cascade,
+  at_call    int  not null default 0,   -- how many numbers had been called when it was won
+  created_at timestamptz not null default now(),
+  unique (title, position),             -- a slot can only be taken once (race-safe)
+  unique (title, ticket_id),            -- a ticket can win a title only once
+  check (title = 'full_house' or position = 1)
+);
+
 create table if not exists game_state (
   id             int primary key default 1 check (id = 1),
   status         text not null default 'waiting' check (status in ('waiting','running','finished')),
@@ -83,6 +98,7 @@ end $$;
 alter table players    enable row level security;
 alter table tickets    enable row level security;
 alter table game_state enable row level security;
+alter table claims     enable row level security;
 
 revoke all on function draw_number()  from public, anon, authenticated;
 revoke all on function next_user_id() from public, anon, authenticated;

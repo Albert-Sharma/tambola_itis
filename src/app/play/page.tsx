@@ -1,13 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NumberBoard, RecentNumbers, announce } from "@/components/Board";
+import { PlayerPrizeCard } from "@/components/PrizeRace";
 import { apiFetch, clearToken } from "@/lib/client";
+import type { PlayerTitle, TitleKey } from "@/lib/titles";
 
 type Ticket = { id: string; ticketNo: number; grid: number[][]; marked: number[] };
 type Game = { status: "waiting" | "running" | "finished"; called: number[]; current: number | null };
-type State = { player: { name: string; userId: string }; tickets: Ticket[]; game: Game };
+type State = { player: { name: string; userId: string }; tickets: Ticket[]; game: Game; titles: PlayerTitle[] };
 
 type ViewMode = "all" | "single" | "compact";
 
@@ -24,6 +26,7 @@ export default function PlayPage() {
   const [dabAllBusy, setDabAllBusy] = useState(false);
 
   const lastCurrent = useRef<number | null | undefined>(undefined);
+  const seenClaims = useRef<Set<string> | null>(null);
   const voiceRef = useRef(true);
   voiceRef.current = voice;
 
@@ -39,6 +42,28 @@ export default function PlayPage() {
       if (voiceRef.current) announce(cur);
     }
     lastCurrent.current = cur;
+
+    // Announce titles that were settled since the last poll (not the ones already settled on first load).
+    const now = new Set<string>();
+    const fresh: string[] = [];
+    for (const t of data.titles ?? []) {
+      for (const c of t.claims) {
+        const id = `${t.key}:${c.position}`;
+        now.add(id);
+        if (seenClaims.current && !seenClaims.current.has(id)) {
+          fresh.push(
+            c.mine
+              ? `You won ${t.label}!`
+              : t.slotsLeft === 0
+              ? `${t.label} claimed by ${c.name}. Oops Missed!`
+              : `${c.name} claimed ${t.label} (${t.slots - t.slotsLeft}/${t.slots})`
+          );
+        }
+      }
+    }
+    seenClaims.current = now;
+    if (fresh.length) setClaimToast(fresh.join(" | "));
+
     setState(data);
   }, [router]);
 
@@ -72,6 +97,7 @@ export default function PlayPage() {
       const d = await res.json().catch(() => ({}));
       return setErr(d.error || "Something went wrong");
     }
+    const data: { won?: TitleKey[] } = await res.json().catch(() => ({}));
     setState((s) =>
       s
         ? {
@@ -82,6 +108,8 @@ export default function PlayPage() {
           }
         : s
     );
+    // Won a title with this cross: refresh now so the card flips to Claimed immediately.
+    if (data.won?.length) load();
   }
 
   // Auto-Dab: automatically dabs all called numbers for all player tickets
@@ -114,62 +142,14 @@ export default function PlayPage() {
 
     await load();
     setDabAllBusy(false);
-    setClaimToast(markedCount > 0 ? `Dabbed ${markedCount} number${markedCount > 1 ? "s" : ""} across tickets!` : "All called numbers are already dabbed!");
+    const dabMsg = markedCount > 0 ? `Dabbed ${markedCount} number${markedCount > 1 ? "s" : ""} across tickets!` : "All called numbers are already dabbed!";
+    // Keep a title win/miss announcement from load() if there is one.
+    setClaimToast((prev) => prev ?? dabMsg);
   }
 
   async function logout() {
     clearToken("player");
     router.replace("/");
-  }
-
-  // Calculate live prize status for player's tickets
-  const prizeStatus = useMemo(() => {
-    if (!state?.tickets) return null;
-    let minEarly5Needed = 5;
-    let minTopLineNeeded = 5;
-    let minMidLineNeeded = 5;
-    let minBotLineNeeded = 5;
-    let minFullHouseNeeded = 15;
-
-    for (const t of state.tickets) {
-      const marked = new Set(t.marked);
-      const early5Needed = Math.max(0, 5 - marked.size);
-      if (early5Needed < minEarly5Needed) minEarly5Needed = early5Needed;
-
-      const fullHouseNeeded = Math.max(0, 15 - marked.size);
-      if (fullHouseNeeded < minFullHouseNeeded) minFullHouseNeeded = fullHouseNeeded;
-
-      // Row 0
-      const row0Nums = t.grid[0].filter((n) => n > 0);
-      const row0Needed = row0Nums.filter((n) => !marked.has(n)).length;
-      if (row0Needed < minTopLineNeeded) minTopLineNeeded = row0Needed;
-
-      // Row 1
-      const row1Nums = t.grid[1].filter((n) => n > 0);
-      const row1Needed = row1Nums.filter((n) => !marked.has(n)).length;
-      if (row1Needed < minMidLineNeeded) minMidLineNeeded = row1Needed;
-
-      // Row 2
-      const row2Nums = t.grid[2].filter((n) => n > 0);
-      const row2Needed = row2Nums.filter((n) => !marked.has(n)).length;
-      if (row2Needed < minBotLineNeeded) minBotLineNeeded = row2Needed;
-    }
-
-    return {
-      early5: minEarly5Needed,
-      topLine: minTopLineNeeded,
-      midLine: minMidLineNeeded,
-      botLine: minBotLineNeeded,
-      fullHouse: minFullHouseNeeded,
-    };
-  }, [state?.tickets]);
-
-  function handleClaim(prizeName: string, needed: number) {
-    if (needed === 0) {
-      setClaimToast(`🎉 BINGO! You claimed ${prizeName}! Host notified.`);
-    } else {
-      setClaimToast(`Cannot claim ${prizeName} yet (${needed} more number${needed > 1 ? "s" : ""} needed)`);
-    }
   }
 
   if (!state) {
@@ -186,6 +166,7 @@ export default function PlayPage() {
   }
 
   const { game, player, tickets } = state;
+  const titles = state.titles ?? [];
   const previousBall = game.called.length > 1 ? game.called[game.called.length - 2] : null;
 
   // Filter visible tickets based on view mode
@@ -481,120 +462,13 @@ export default function PlayPage() {
         </div>
       </section>
 
-      {/* QUICK PRIZE TRACKER STRIP */}
-      {prizeStatus && (
+      {/* LIVE PRIZE RACE: position per title, then Claimed / Oops Missed once settled */}
+      {titles.length > 0 && (
         <section>
           <div className="prize-tracker">
-            {/* Early Five */}
-            <div className={`prize-card${prizeStatus.early5 === 0 ? " highlight" : ""}`}>
-              <div className="title-row">
-                <span>Early Five</span>
-                <span style={{ color: "var(--tertiary)" }}>₹1,500</span>
-              </div>
-              <div className="action-row">
-                <span className={`needed${prizeStatus.early5 === 0 ? " done" : ""}`}>
-                  {prizeStatus.early5 === 0 ? "Ready!" : `${prizeStatus.early5} Needed`}
-                </span>
-                <button
-                  type="button"
-                  className="btn secondary small"
-                  style={{ padding: "3px 8px", fontSize: "0.72rem" }}
-                  onClick={() => handleClaim("Early Five", prizeStatus.early5)}
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
-
-            {/* Top Line */}
-            <div className={`prize-card${prizeStatus.topLine === 0 ? " highlight" : ""}`}>
-              <div className="title-row">
-                <span>Top Line</span>
-                <span style={{ color: "var(--tertiary)" }}>₹2,000</span>
-              </div>
-              <div className="action-row">
-                <span className={`needed${prizeStatus.topLine === 0 ? " done" : ""}`}>
-                  {prizeStatus.topLine === 0 ? "Ready!" : `${prizeStatus.topLine} Needed`}
-                </span>
-                <button
-                  type="button"
-                  className="btn secondary small"
-                  style={{ padding: "3px 8px", fontSize: "0.72rem" }}
-                  onClick={() => handleClaim("Top Line", prizeStatus.topLine)}
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
-
-            {/* Middle Line */}
-            <div className={`prize-card${prizeStatus.midLine === 0 ? " highlight" : ""}`}>
-              <div className="title-row">
-                <span>Middle Line</span>
-                <span style={{ color: "var(--tertiary)" }}>₹2,000</span>
-              </div>
-              <div className="action-row">
-                <span className={`needed${prizeStatus.midLine === 0 ? " done" : ""}`}>
-                  {prizeStatus.midLine === 0 ? "Ready!" : `${prizeStatus.midLine} Needed`}
-                </span>
-                <button
-                  type="button"
-                  className="btn secondary small"
-                  style={{ padding: "3px 8px", fontSize: "0.72rem" }}
-                  onClick={() => handleClaim("Middle Line", prizeStatus.midLine)}
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
-
-            {/* Bottom Line */}
-            <div className={`prize-card${prizeStatus.botLine === 0 ? " highlight" : ""}`}>
-              <div className="title-row">
-                <span>Bottom Line</span>
-                <span style={{ color: "var(--tertiary)" }}>₹2,000</span>
-              </div>
-              <div className="action-row">
-                <span className={`needed${prizeStatus.botLine === 0 ? " done" : ""}`}>
-                  {prizeStatus.botLine === 0 ? "Ready!" : `${prizeStatus.botLine} Needed`}
-                </span>
-                <button
-                  type="button"
-                  className="btn secondary small"
-                  style={{ padding: "3px 8px", fontSize: "0.72rem" }}
-                  onClick={() => handleClaim("Bottom Line", prizeStatus.botLine)}
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
-
-            {/* Full House */}
-            <div
-              className="prize-card highlight"
-              style={{
-                background: "linear-gradient(135deg, rgba(161, 0, 255, 0.25), var(--surface-high))",
-                borderColor: "rgba(161, 0, 255, 0.6)",
-              }}
-            >
-              <div className="title-row">
-                <span style={{ color: "var(--primary)" }}>Full House</span>
-                <span style={{ color: "var(--tertiary)", fontWeight: 800 }}>₹10,000</span>
-              </div>
-              <div className="action-row">
-                <span className={`needed${prizeStatus.fullHouse === 0 ? " done" : ""}`} style={{ color: "var(--tertiary)" }}>
-                  {prizeStatus.fullHouse === 0 ? "Ready!" : `${prizeStatus.fullHouse} Needed`}
-                </span>
-                <button
-                  type="button"
-                  className="btn small"
-                  style={{ padding: "3px 10px", fontSize: "0.72rem" }}
-                  onClick={() => handleClaim("Full House", prizeStatus.fullHouse)}
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
+            {titles.map((t) => (
+              <PlayerPrizeCard key={t.key} t={t} />
+            ))}
           </div>
         </section>
       )}

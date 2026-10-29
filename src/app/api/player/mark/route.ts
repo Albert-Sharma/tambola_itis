@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { getPlayerSession } from "@/lib/auth";
-import { getGameState } from "@/lib/game";
+import { getGameState, awardClaims, invalidateRaceCache } from "@/lib/game";
 
 const WRONG_MESSAGE = "Acha Acha Achaaa!";
 
@@ -30,12 +30,23 @@ export async function POST(req: Request) {
   }
 
   const marked: number[] = ticket.marked ?? [];
+  let nowMarked = marked;
   if (!marked.includes(number)) {
+    nowMarked = [...marked, number];
     try {
-      await store().setMarked(ticket.id, [...marked, number]);
+      await store().setMarked(ticket.id, nowMarked);
+      invalidateRaceCache();
     } catch (e) {
       return NextResponse.json({ error: e instanceof Error ? e.message : "Save failed" }, { status: 500 });
     }
   }
-  return NextResponse.json({ ok: true });
+
+  // First to cross a title wins it; the store guarantees only one winner per slot.
+  let won: string[] = [];
+  try {
+    won = await awardClaims({ id: s.playerId }, { id: ticket.id, grid: ticket.grid, marked: nowMarked }, game.called.length);
+  } catch {
+    // The cross is saved; a failed claim attempt is retried on the player's next cross.
+  }
+  return NextResponse.json({ ok: true, won });
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { requireAdmin } from "@/lib/auth";
-import { getGameState } from "@/lib/game";
+import { getGameState, invalidateRaceCache } from "@/lib/game";
 
 export async function POST(req: Request) {
   if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       await store().setStatus(g.called.length ? "running" : "waiting");
     } else if (action === "reset") {
       await store().resetGame();
+      invalidateRaceCache();
     } else {
       return NextResponse.json({ error: "Unknown action" }, { status: 400 });
     }

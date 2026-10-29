@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { getPlayerSession } from "@/lib/auth";
-import { getGameState } from "@/lib/game";
+import { getGameState, playerTitleStatus } from "@/lib/game";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +15,11 @@ export async function GET() {
   const tickets = await store().ticketsForPlayer(s.playerId);
 
   const game = await getGameState();
+  const titles = await playerTitleStatus(s.playerId, tickets);
   return NextResponse.json({
     player: { name: player.name, userId: player.user_id },
     tickets: tickets.map((t) => ({ id: t.id, ticketNo: t.ticket_no, grid: t.grid, marked: t.marked })),
     game,
+    titles,
   });
 }

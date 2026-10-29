@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NumberBoard, RecentNumbers, announce } from "@/components/Board";
 import ImportPanel from "@/components/ImportPanel";
+import { AdminPrizeRace } from "@/components/PrizeRace";
 import { apiFetch, clearToken, setToken } from "@/lib/client";
+import type { AdminTitle } from "@/lib/titles";
 
 type Game = { status: "waiting" | "running" | "finished"; called: number[]; current: number | null };
 type Player = {
@@ -20,6 +22,7 @@ type AdminState = {
   game: Game;
   players: Player[];
   leaderboard: Lead[];
+  titles: AdminTitle[];
   totalTickets: number;
   mailConfigured: boolean;
   storageMode: "local" | "supabase";
@@ -306,6 +309,9 @@ function Dashboard({
           </span>
         </div>
       )}
+
+      {/* Live prize race: who is closest and who has already won each title */}
+      <AdminPrizeRace titles={state.titles ?? []} />
 
       {/* Main 2-Column Bento Engine */}
       <div className="grid2">
