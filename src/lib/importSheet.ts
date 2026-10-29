@@ -78,7 +78,7 @@ export function detectMapping(headers: string[], dataRows: string[][]): Mapping 
   return { email, name, phone, tickets };
 }
 
-function parseCount(v: string): number {
+export function parseCount(v: string): number {
   const m = v.match(/\d+/);
   if (m) return Number(m[0]);
   const w = v.toLowerCase().match(/\b(one|two|three)\b/);

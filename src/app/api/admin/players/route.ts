@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
-import { store } from "@/lib/store";
 import { requireAdmin } from "@/lib/auth";
-import { issueTickets } from "@/lib/game";
-import { sendTicketsEmail } from "@/lib/mailer";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { createPlayerWithTickets, emailPlayer, EMAIL_RE } from "@/lib/registration";
 
 export async function POST(req: Request) {
   if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -23,21 +19,12 @@ export async function POST(req: Request) {
 
   let player: { id: string; user_id: string };
   try {
-    player = await store().createPlayer({ name, email, phone, numTickets });
+    player = await createPlayerWithTickets({ name, email, phone, numTickets });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "Insert failed" }, { status: 500 });
   }
 
-  let grids;
-  try {
-    grids = await issueTickets(player.id, numTickets);
-  } catch (e) {
-    await store().deletePlayer(player.id);
-    return NextResponse.json({ error: e instanceof Error ? e.message : "Ticket generation failed" }, { status: 500 });
-  }
-
-  const mail = await sendTicketsEmail({ to: email, name, userId: player.user_id, grids });
-  if (mail.sent) await store().markEmailSent(player.id);
+  const mail = await emailPlayer({ id: player.id, user_id: player.user_id, name, email, num_tickets: numTickets });
 
   return NextResponse.json({ userId: player.user_id, emailSent: mail.sent, emailError: mail.error });
 }

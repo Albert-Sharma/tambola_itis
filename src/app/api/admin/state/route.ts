@@ -34,7 +34,7 @@ export async function GET() {
       email: p.email,
       phone: p.phone,
       numTickets: p.num_tickets,
-      emailSent: p.email_sent,
+      emailSent: p.success_sent_email_1,
       createdAt: p.created_at,
     };
   });

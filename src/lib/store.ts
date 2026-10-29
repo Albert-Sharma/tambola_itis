@@ -18,7 +18,8 @@ export type PlayerRow = {
   email: string;
   phone: string | null;
   num_tickets: number;
-  email_sent: boolean;
+  /** True once the registration e-mail (user-id mail #1) was delivered to the SMTP server. */
+  success_sent_email_1: boolean;
   created_at: string;
 };
 
@@ -53,6 +54,7 @@ export interface Store {
   resetGame(): Promise<void>;
   findPlayerByUserId(userId: string): Promise<{ id: string; user_id: string } | null>;
   getPlayer(id: string): Promise<PlayerRow | null>;
+  findPlayerByEmail(email: string): Promise<PlayerRow | null>;
   ticketsForPlayer(playerId: string): Promise<TicketRow[]>;
   getTicket(ticketId: string, playerId: string): Promise<TicketRow | null>;
   setMarked(ticketId: string, marked: number[]): Promise<void>;
@@ -75,7 +77,7 @@ const sortTickets = <T extends { ticket_no: number }>(t: T[]) => [...t].sort((a,
 /* ------------------------------------------------------------------ */
 
 const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
-const PLAYER_COLS = "id, user_id, name, email, phone, num_tickets, email_sent, created_at";
+const PLAYER_COLS = "id, user_id, name, email, phone, num_tickets, success_sent_email_1, created_at";
 
 function fail(error: { message: string } | null): asserts error is null {
   if (error) throw new Error(error.message);
@@ -140,6 +142,10 @@ const supabaseStore: Store = {
   },
   async getPlayer(id) {
     const { data } = await db().from("players").select(PLAYER_COLS).eq("id", id).maybeSingle();
+    return (data as PlayerRow) ?? null;
+  },
+  async findPlayerByEmail(email) {
+    const { data } = await db().from("players").select(PLAYER_COLS).eq("email", email.trim().toLowerCase()).limit(1).maybeSingle();
     return (data as PlayerRow) ?? null;
   },
   async ticketsForPlayer(playerId) {
@@ -207,7 +213,7 @@ const supabaseStore: Store = {
     fail(error);
   },
   async markEmailSent(id) {
-    await db().from("players").update({ email_sent: true }).eq("id", id);
+    await db().from("players").update({ success_sent_email_1: true }).eq("id", id);
   },
   async listClaims() {
     const { data, error } = await db().from("claims").select(CLAIM_COLS).order("created_at");
@@ -283,7 +289,7 @@ function seedLocal(): LocalData {
       email: `demo${count}@example.com`,
       phone: null,
       num_tickets: count,
-      email_sent: false,
+      success_sent_email_1: false,
       created_at: new Date().toISOString(),
     });
     for (let i = 1; i <= count; i++) {
@@ -305,8 +311,12 @@ function loadLocal(): LocalData {
     }
     g.__tambolaLocal = data;
   }
-  // Older local files / cached copies predate claims.
+  // Older local files / cached copies predate claims and the success_sent_email_1 rename.
   g.__tambolaLocal.claims ??= [];
+  for (const p of g.__tambolaLocal.players as (PlayerRow & { email_sent?: boolean })[]) {
+    p.success_sent_email_1 ??= Boolean(p.email_sent);
+    delete p.email_sent;
+  }
   return g.__tambolaLocal;
 }
 
@@ -365,6 +375,10 @@ const localStore: Store = {
   async getPlayer(id) {
     return loadLocal().players.find((x) => x.id === id) ?? null;
   },
+  async findPlayerByEmail(email) {
+    const e = email.trim().toLowerCase();
+    return loadLocal().players.find((x) => x.email.toLowerCase() === e) ?? null;
+  },
   async ticketsForPlayer(playerId) {
     return sortTickets(loadLocal().tickets.filter((t) => t.player_id === playerId));
   },
@@ -399,7 +413,7 @@ const localStore: Store = {
       email,
       phone,
       num_tickets: numTickets,
-      email_sent: false,
+      success_sent_email_1: false,
       created_at: new Date().toISOString(),
     };
     d.players.push(p);
@@ -422,7 +436,7 @@ const localStore: Store = {
   async markEmailSent(id) {
     const d = loadLocal();
     const p = d.players.find((x) => x.id === id);
-    if (p) p.email_sent = true;
+    if (p) p.success_sent_email_1 = true;
     saveLocal(d);
   },
   async listClaims() {

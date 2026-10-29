@@ -635,10 +635,39 @@ function PlayersTable({ players, reload }: { players: Player[]; reload: () => vo
     reload();
   }
 
-  if (!players.length) return <p className="muted">No players registered yet.</p>;
+  async function syncSheet() {
+    setNote("Syncing Google Sheet...");
+    const res = await apiFetch("admin", "/api/admin/sync", { method: "POST" });
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok) setNote(`Sync failed: ${d.error || res.status}`);
+    else {
+      const bad = d.invalid?.length ? `, ${d.invalid.length} skipped (${d.invalid.join("; ")})` : "";
+      setNote(`Sheet synced: ${d.created} new, ${d.resent} re-sent, ${d.alreadySent} already mailed, ${d.failed} failed${bad}`);
+    }
+    reload();
+  }
+
+  const toolbar = (
+    <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+      <button className="btn secondary small" onClick={syncSheet}>
+        Sync Google Sheet
+      </button>
+    </div>
+  );
+
+  if (!players.length) {
+    return (
+      <>
+        {toolbar}
+        {note && <div className="ok" style={{ marginBottom: 12 }}>{note}</div>}
+        <p className="muted">No players registered yet.</p>
+      </>
+    );
+  }
 
   return (
     <>
+      {toolbar}
       {note && <div className="ok" style={{ marginBottom: 12 }}>{note}</div>}
       <div className="table-wrap">
         <table className="list">
@@ -665,7 +694,7 @@ function PlayersTable({ players, reload }: { players: Player[]; reload: () => vo
                 <td style={{ fontWeight: 700 }}>{p.numTickets}</td>
                 <td>
                   <span className={`tag ${p.emailSent ? "good" : "bad"}`}>
-                    {p.emailSent ? "sent" : "not sent"}
+                    {p.emailSent ? "\u2713 sent" : "\u2717 not sent"}
                   </span>
                 </td>
                 <td>

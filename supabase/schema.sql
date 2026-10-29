@@ -23,9 +23,21 @@ create table if not exists players (
   email       text not null,
   phone       text,
   num_tickets int  not null check (num_tickets between 1 and 3),
-  email_sent  boolean not null default false,
+  success_sent_email_1 boolean not null default false,  -- ticked once the registration e-mail (user-id) was sent
   created_at  timestamptz not null default now()
 );
+
+-- Existing databases: the old `email_sent` column becomes `success_sent_email_1` (keeps the ticks already set).
+do $$
+begin
+  if exists (select 1 from information_schema.columns
+             where table_schema = 'public' and table_name = 'players' and column_name = 'email_sent')
+     and not exists (select 1 from information_schema.columns
+             where table_schema = 'public' and table_name = 'players' and column_name = 'success_sent_email_1') then
+    alter table players rename column email_sent to success_sent_email_1;
+  end if;
+end $$;
+alter table players add column if not exists success_sent_email_1 boolean not null default false;
 
 create table if not exists tickets (
   id         uuid primary key default gen_random_uuid(),
